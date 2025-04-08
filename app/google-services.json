@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "12438746258",
+    "project_id": "virtualwings-63713",
+    "storage_bucket": "virtualwings-63713.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12438746258:android:7e3e7d0a8da3a70764224b",
+        "android_client_info": {
+          "package_name": "com.example.virtualwing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQDoeqoRE089g8tKXfhDIBQ6xXKuGRUvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12438746258:android:69fe56ef4eb0886664224b",
+        "android_client_info": {
+          "package_name": "com.example.virtualwings"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQDoeqoRE089g8tKXfhDIBQ6xXKuGRUvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

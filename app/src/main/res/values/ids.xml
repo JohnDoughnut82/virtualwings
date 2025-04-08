@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="nameEditText" type="id"/>
+    <item name="bioEditText" type="id"/>
+    <item name="aircraftEditText" type="id"/>
+    <item name="saveButton" type="id"/>
+    <item name="flightHoursEditText" type="id"/>
+    <item name="missionTypeEditText" type="id"/>
+    <item name="saveLogButton" type="id"/>
+    <item name="flightHoursText" type="id"/>
+    <item name="drawer_layout" type="id" />
+    <item name="toolbar" type="id" />
+    <item name="btnGoToSignUp" type="id" />
+    <item name="emailEditText" type="id" />
+    <item name="passwordEditText" type="id" />
+    <item name="btnSignUp" type="id" />
+    <item name="btnBackToLogin" type="id" />
+</resources>
