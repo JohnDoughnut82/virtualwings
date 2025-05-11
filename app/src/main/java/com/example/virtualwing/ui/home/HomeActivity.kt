@@ -17,6 +17,7 @@ class HomeActivity : BaseActivity() {
         ViewModelFactoryProvider.provideHomeViewModelFactory()
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -24,11 +25,13 @@ class HomeActivity : BaseActivity() {
         setUpDrawer()
 
         homeViewModel.flightHours.observe(this, Observer { flightHours ->
-            findViewById<TextView>(R.id.flightHoursText).text = getString(R.string.flight_hours, flightHours)
+            val flightViewText = findViewById<TextView>(R.id.flightHoursText)
+            flightViewText.text = getString(R.string.flight_hours, flightHours)
         })
 
         homeViewModel.userName.observe(this, Observer { userName ->
-            findViewById<TextView>(R.id.welcomeText).text = getString(R.string.welcome, userName)
+            val welcomeTextView = findViewById<TextView>(R.id.welcomeText)
+            welcomeTextView.text = getString(R.string.welcome, userName)
         })
 
         homeViewModel.errorMessage.observe(this, Observer { errorMessage ->
@@ -42,5 +45,10 @@ class HomeActivity : BaseActivity() {
             navigationManager.navigateToLogin()
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        homeViewModel.refreshFlightHours()
     }
 }

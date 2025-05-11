@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="regions">
+        <item>North America</item>
+        <item>Europe</item>
+        <item>Asia</item>
+        <item>South America</item>
+        <item>Australia</item>
+        <item>Africa</item>
+        <item>Other</item>
+    </string-array>
+        <string-array name="sort_options">
+            <item>Date</item>
+            <item>Aircraft</item>
+            <item>Flight Hours</item>
+            <item>Mission Type</item>
+            <item>Wingmen</item>
+        </string-array>
+</resources>

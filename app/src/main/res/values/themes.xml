@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.VirtualWing" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+
+    <!-- DCS Theme -->
+    <style name="AppTheme.DCS" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand colors -->
+        <item name="colorPrimary">@color/dcsPrimary</item>
+        <item name="colorPrimaryVariant">@color/dcsPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Background & Surface -->
+        <item name="android:windowBackground">@color/dcsBackground</item>
+        <item name="backgroundColor">@color/dcsBackground</item>
+        <item name="colorSurface">@color/dcsSecondary</item>
+        <item name="colorOnSurface">@color/dcsText</item>
+
+        <!-- Text -->
+        <item name="android:textColorPrimary">@color/dcsText</item>
+        <item name="android:textColorHint">@color/dcsSecondary</item>
+        <item name="android:fontFamily">@font/dcs_font</item>
+
+        <!-- Input field outlines / indicators -->
+        <item name="colorControlActivated">@color/dcsAccent</item> <!-- underline on focus -->
+        <item name="colorControlNormal">@color/dcsText</item> <!-- unfocused underline -->
+        <item name="colorError">@android:color/holo_red_light</item>
+
+        <!-- Buttons -->
+        <item name="materialButtonStyle">@style/Widget.DCS.Button</item>
+
+        <!-- Status bar / nav -->
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+
+        <!-- Optional for AppCompat compatibility -->
+        <item name="android:textColor">@color/dcsText</item>
+    </style>
+
+    <!-- Custom Button Style -->
+    <style name="Widget.DCS.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/dcsPrimary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/dcs_font</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 </resources>

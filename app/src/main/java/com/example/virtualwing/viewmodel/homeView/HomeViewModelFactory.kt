@@ -2,6 +2,7 @@ package com.example.virtualwing.viewmodel.homeView
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.virtualwing.repository.FlightLogRepository
 import com.example.virtualwing.repository.UserRepository
 
 class HomeViewModelFactory(private val userRepository: UserRepository) : ViewModelProvider.Factory {

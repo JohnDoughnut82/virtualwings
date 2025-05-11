@@ -12,6 +12,10 @@
         android:icon="@drawable/ic_log"
         android:title="@string/flight_log" />
     <item
+        android:id="@+id/nav_squad"
+        android:icon="@drawable/ic_squad"
+        android:title="@string/squadron" />
+    <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings" />

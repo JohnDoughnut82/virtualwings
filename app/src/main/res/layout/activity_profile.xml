@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
+    android:orientation="vertical"
+    android:background="@color/dcsBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,51 +22,98 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_menu"/>
 
-        <EditText
-            android:id="@+id/nameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:autofillHints=""
+        <!-- TextInputLayout for Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:hint="@string/enter_name"
-            android:inputType="text"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
-        <EditText
-            android:id="@+id/bioEditText"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:autofillHints=""
-            android:hint="@string/enter_bio"
-            android:inputType="text"
-            app:layout_constraintTop_toBottomOf="@id/nameEditText"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameEditText"
+                android:layout_width="488dp"
+                android:layout_height="48dp"
+                android:inputType="text"
+                android:gravity="top|start"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/aircraftEditText"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:autofillHints=""
-            android:hint="@string/favorite_aircraft_comma_separated"
-            android:inputType="text"
-            app:layout_constraintTop_toBottomOf="@id/bioEditText"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="match_parent"
+        <!-- TextInputLayout for Bio -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bioInputLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/save_profile"
-            app:layout_constraintTop_toBottomOf="@id/aircraftEditText"
+            android:hint="@string/enter_bio"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/nameInputLayout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            tools:ignore="NotSibling" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bioEditText"
+                android:layout_width="488dp"
+                android:layout_height="48dp"
+                android:inputType="text"
+                android:gravity="top|start"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- TextInputLayout for Aircraft -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/aircraftInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/favorite_aircraft_comma_separated"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/bioInputLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/aircraftEditText"
+                android:layout_width="488dp"
+                android:layout_height="48dp"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:gravity="top|start"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="@string/save_profile"
+            app:layout_constraintTop_toBottomOf="@id/aircraftInputLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -75,3 +124,5 @@
         app:itemTextColor="@android:color/black"
         app:menu="@menu/drawer_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>
+
+

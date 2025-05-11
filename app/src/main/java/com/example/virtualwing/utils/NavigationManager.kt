@@ -3,8 +3,10 @@ package com.example.virtualwing.utils
 import android.content.Context
 import android.content.Intent
 import com.example.virtualwing.ui.flightLog.FlightLogActivity
+import com.example.virtualwing.ui.flightLog.ViewLogsActivity
 import com.example.virtualwing.ui.home.HomeActivity
 import com.example.virtualwing.ui.login.LoginActivity
+import com.example.virtualwing.ui.squadron.SquadronActivity
 import com.example.virtualwing.ui.userProfile.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -26,8 +28,18 @@ class NavigationManager(private val context: Context) {
         context.startActivity(intent)
     }
 
+    fun navigateToViewFlightLogs() {
+        val intent = Intent(context, ViewLogsActivity::class.java)
+        context.startActivity(intent)
+    }
+
     fun navigateToProfile() {
         val intent = Intent(context, ProfileActivity::class.java)
+        context.startActivity(intent)
+    }
+
+    fun navigateToSquadron() {
+        val intent = Intent(context, SquadronActivity::class.java)
         context.startActivity(intent)
     }
 

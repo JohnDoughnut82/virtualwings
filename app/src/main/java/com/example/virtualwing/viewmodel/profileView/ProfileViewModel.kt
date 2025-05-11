@@ -16,6 +16,10 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
+    private val _checkedState = MutableLiveData<BooleanArray>()
+    val checkedState: LiveData<BooleanArray> get() = _checkedState
+
+
     fun loadUserProfile(userId: String) {
         viewModelScope.launch {
             userRepository.getUserProfile(userId)?.let { profile ->

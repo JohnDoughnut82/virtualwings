@@ -1,13 +1,12 @@
 package com.example.virtualwing.repository
 
 import android.util.Log
-import com.example.virtualwing.data.FlightLog
 import com.example.virtualwing.data.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FirebaseService {
+class UserService {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
@@ -50,28 +49,13 @@ class FirebaseService {
         }
     }
 
-    suspend fun saveFlightLog(userId: String, flightLog: FlightLog): Boolean {
-        return try {
-            firestore.collection("users").document(userId)
-                .collection("flightLogs").add(flightLog).await()
-            true
-        } catch (e: Exception) {
-            Log.e("FirebaseService", "Error saving flight log", e)
-            false
-        }
-    }
-
     suspend fun getUserFlightHours(userId: String): Int {
         return try {
-            val querySnapshot = firestore.collection("users").document(userId)
-                .collection("flightLogs").get().await()
+            val snapshot = firestore.collection("users").document(userId)
+                .get()
+                .await()
 
-            var totalFlightHours = 0
-            for (document in querySnapshot) {
-                val flightLog = document.toObject(FlightLog::class.java)
-                totalFlightHours += flightLog.flightHours
-            }
-            totalFlightHours
+            snapshot.getLong("totalFlightHours")?.toInt() ?: 0
         } catch (e: Exception) {
             Log.e("FirebaseService", "Error fetching flight hours", e)
             0

@@ -40,7 +40,7 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
                 email = email,
                 bio = bio ?: "",
                 favouriteAircraft = favouriteAircraft ?: listOf(),
-                totalFlightHours = 0
+                totalFlightHours = 0,
             )
             val result = userRepository.signUp(email, password, userProfile)
             if(result.isSuccess) {

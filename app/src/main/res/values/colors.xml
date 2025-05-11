@@ -6,5 +6,15 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="neutralPrimary">#FFFFFF</color>
+    <color name="neutralBackground">#99DFEEFF</color>
+
+    <color name="dcsPrimary">#4CAF50</color> <!-- Military green -->
+    <color name="dcsBackground">#1B1B1B</color> <!-- Dark background -->
+    <color name="dcsText">#ECF4E5</color> <!-- Off-white text -->
+    <color name="dcsSecondary">#3F5B74</color> <!-- RAF blue-gray -->
+    <color name="dcsAccent">#81A4CD</color> <!-- RAF blue highlight -->
+    <color name="white">#FFFFFF</color>
+
 </resources>

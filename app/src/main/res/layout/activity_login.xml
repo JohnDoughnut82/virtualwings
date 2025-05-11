@@ -12,9 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/welcome_to_virtual_wings"
+        android:textColor="@color/dcsText"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:fontFamily="@font/dcs_font"/>
 
     <EditText
         android:id="@+id/etEmail"

@@ -6,16 +6,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.virtualwing.R
 import com.example.virtualwing.data.UserProfile
-import com.example.virtualwing.repository.FirebaseService
-import com.example.virtualwing.repository.UserRepository
 import com.example.virtualwing.viewmodel.factoryProvider.ViewModelFactoryProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.example.virtualwing.viewmodel.profileView.ProfileViewModel
-import com.example.virtualwing.viewmodel.profileView.ProfileViewModelFactory
 
 class ProfileActivity : BaseActivity() {
 
@@ -39,15 +36,20 @@ class ProfileActivity : BaseActivity() {
         aircraftEditText = findViewById(R.id.aircraftEditText)
         saveButton = findViewById(R.id.saveButton)
 
+        observeUserProfile()
+
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         userId?.let {
             profileViewModel.loadUserProfile(it)
-            observeUserProfile()
         }
 
         saveButton.setOnClickListener {
             saveProfileChanges()
         }
+
+        nameEditText.addTextChangedListener { setViewModified(true) }
+        bioEditText.addTextChangedListener { setViewModified(true) }
+        aircraftEditText.addTextChangedListener { setViewModified(true) }
     }
 
     private fun observeUserProfile() {
@@ -62,10 +64,12 @@ class ProfileActivity : BaseActivity() {
         })
     }
 
+
     private fun saveProfileChanges() {
         val updatedName = nameEditText.text.toString()
         val updatedBio = bioEditText.text.toString()
         val updatedAircraft = aircraftEditText.text.toString().split(",").map { it.trim() }
+
 
         profileViewModel.userProfile.value?.let { currentProfile ->
             val updatedProfile = UserProfile(
@@ -73,12 +77,13 @@ class ProfileActivity : BaseActivity() {
                 email = currentProfile.email,
                 bio = updatedBio,
                 favouriteAircraft = updatedAircraft,
-                totalFlightHours = currentProfile.totalFlightHours
+                totalFlightHours = currentProfile.totalFlightHours,
             )
 
             FirebaseAuth.getInstance().currentUser?.uid?.let {
                 profileViewModel.saveProfileChanges(it, updatedProfile)
                 Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                setViewModified(false)
             }
         }
     }

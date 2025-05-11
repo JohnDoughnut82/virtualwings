@@ -3,6 +3,8 @@
     <item name="nameEditText" type="id"/>
     <item name="bioEditText" type="id"/>
     <item name="aircraftEditText" type="id"/>
+    <item name="simsCheckboxContainer" type="id"/>
+    <item name="simDropdown" type="id"/>
     <item name="saveButton" type="id"/>
     <item name="flightHoursEditText" type="id"/>
     <item name="missionTypeEditText" type="id"/>
@@ -15,4 +17,6 @@
     <item name="passwordEditText" type="id" />
     <item name="btnSignUp" type="id" />
     <item name="btnBackToLogin" type="id" />
+    <item name="wingmenEditText" type="id" />
+    <item name="missionDateEdit" type="id" />
 </resources>

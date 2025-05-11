@@ -5,5 +5,6 @@ data class UserProfile(
     val email: String = "",
     val bio: String = "",
     val favouriteAircraft: List<String> = emptyList(),
-    val totalFlightHours: Int = 0
+    val totalFlightHours: Int = 0,
+    val squadronId: String? = null
 )

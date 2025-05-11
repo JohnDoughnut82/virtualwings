@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">VirtualWing</string>
     <string name="welcome">Welcome, %1$s</string>
+    <string name="welcome_dcs">Welcome to DCS mode, %1$s</string>
+    <string name="welcome_msfs">Welcome to MSFS mode, %1$s</string>
     <string name="logout">Logout</string>
     <string name="welcome_to_virtual_wings">Welcome To Virtual Wings!</string>
     <string name="email">Email</string>
@@ -22,4 +24,23 @@
     <string name="closeDrawer">close</string>
     <string name="sign_up">Sign Up</string>
     <string name="back_to_login">Back to Login</string>
+    <string name="select_flight_sims">Select Flight Sims</string>
+    <string name="select_flight_sim">Select Sim for Flight Log</string>
+    <string name="wingmen">Enter name of Wingmen</string>
+    <string name="dcs_world">DCS World</string>
+    <string name="msfs_2020">MSFS 2020</string>
+    <string name="view_logs">View Logs</string>
+    <string name="toggle_sort_order">Toggle Sort Order</string>
+    <string name="search_logs">Search logs...</string>
+    <string name="date">Date</string>
+    <string name="aircraft_type">Aircraft Type</string>
+    <string name="create_squadron">Create Squadron</string>
+    <string name="description">Description</string>
+    <string name="squadron_name">Squadron Name</string>
+    <string name="upload_emblem">Upload Emblem</string>
+    <string name="squadron_emblem">Squadron Emblem</string>
+    <string name="leave_squadron">Leave Squadron</string>
+    <string name="disband_squadron">Disband Squadron</string>
+    <string name="squadron_members">%1$s members</string>
+    <string name="squadron">Squadron</string>
 </resources>
