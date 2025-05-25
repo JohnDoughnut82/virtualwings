@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_squadron_emblem_detailed"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/squadron_emblem"
+            android:src="@drawable/ic_placeholder_emblem"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:id="@+id/tv_squadron_name_detailed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/squadron_name"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_squadron_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/squadron_description"
+            android:textColor="@color/black"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/tv_squadron_region_detailed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/squadron_region"
+            android:textColor="@color/black"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tv_squadron_timezone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/squadron_timezone"
+            android:textColor="@color/black"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tv_squadron_created_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/squadron_creator"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_squadron_member_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/squadron_members"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btn_request_join"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/squadron_join_request"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+</ScrollView>

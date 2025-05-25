@@ -6,7 +6,7 @@ import com.example.virtualwing.ui.flightLog.FlightLogActivity
 import com.example.virtualwing.ui.flightLog.ViewLogsActivity
 import com.example.virtualwing.ui.home.HomeActivity
 import com.example.virtualwing.ui.login.LoginActivity
-import com.example.virtualwing.ui.squadron.SquadronActivity
+import com.example.virtualwing.ui.squadron.SquadronLandingActivity
 import com.example.virtualwing.ui.userProfile.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -39,7 +39,7 @@ class NavigationManager(private val context: Context) {
     }
 
     fun navigateToSquadron() {
-        val intent = Intent(context, SquadronActivity::class.java)
+        val intent = Intent(context, SquadronLandingActivity::class.java)
         context.startActivity(intent)
     }
 

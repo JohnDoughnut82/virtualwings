@@ -29,7 +29,10 @@
         <activity android:name=".ui.flightLog.FlightLogActivity" android:theme="@style/AppTheme.DCS"/>
         <activity android:name=".ui.signup.SignUpActivity" android:theme="@style/AppTheme.DCS"/>
         <activity android:name=".ui.flightLog.ViewLogsActivity" android:theme="@style/AppTheme.DCS"/>
-        <activity android:name=".ui.squadron.SquadronActivity" android:theme="@style/AppTheme.DCS"/>
+        <activity android:name=".ui.squadron.SquadronLandingActivity" android:theme="@style/AppTheme.DCS"/>
+        <activity android:name=".ui.squadron.SquadronInfoActivity" android:theme="@style/AppTheme.DCS"/>
+        <activity android:name=".ui.squadron.SquadronJoinActivity" android:theme="@style/AppTheme.DCS"/>
+        <activity android:name=".ui.squadron.SquadronCreateActivity" android:theme="@style/AppTheme.DCS"/>
     </application>
 
 </manifest>

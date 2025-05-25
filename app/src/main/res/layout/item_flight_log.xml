@@ -19,30 +19,35 @@
             android:layout_height="wrap_content"
             android:text="@string/date"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvAircraft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="@string/aircraft_type" />
 
         <TextView
             android:id="@+id/tvHours"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="@string/flight_hours" />
 
         <TextView
             android:id="@+id/tvMissionType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="@string/mission_type" />
 
         <TextView
             android:id="@+id/tvWingmen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="@string/wingmen" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

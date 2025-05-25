@@ -24,33 +24,38 @@
             android:id="@+id/welcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
             android:text="@string/welcome_dcs"
-            android:textSize="18sp"
             android:textColor="@color/dcsText"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="18sp"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/flightHoursText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="@string/flight_hours"
-            android:textSize="18sp"
             android:textColor="@color/dcsText"
-            app:layout_constraintTop_toBottomOf="@id/welcomeText"
+            android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
         <Button
             android:id="@+id/logoutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="@string/logout"
             android:textColor="@color/dcsText"
-            app:layout_constraintTop_toBottomOf="@id/flightHoursText"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flightHoursText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation (libs.glide)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
     annotationProcessor (libs.compiler)
     implementation (libs.play.services.base)
     implementation (libs.material.v170)

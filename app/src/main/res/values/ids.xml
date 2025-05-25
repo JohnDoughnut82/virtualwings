@@ -19,4 +19,5 @@
     <item name="btnBackToLogin" type="id" />
     <item name="wingmenEditText" type="id" />
     <item name="missionDateEdit" type="id" />
+    <item name="rv_join_squadrons" type="id" />
 </resources>

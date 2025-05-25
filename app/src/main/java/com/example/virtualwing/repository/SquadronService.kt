@@ -2,7 +2,11 @@ package com.example.virtualwing.repository
 
 import android.net.Uri
 import com.example.virtualwing.data.Squadron
+import com.example.virtualwing.data.UserProfile
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
@@ -20,6 +24,14 @@ class SquadronService {
         emblemUri: Uri?,
         creatorId: String
     ) {
+        val userRef = firestore.collection("users").document(creatorId)
+        val userSnapshot = userRef.get().await()
+        val userProfile = userSnapshot.toObject(UserProfile::class.java)
+
+        if (userProfile?.squadronId != null) {
+            throw IllegalStateException("User is already a member or owner of a squadron.")
+        }
+
         val squadronId = UUID.randomUUID().toString()
 
         var imageUrl: String? = null
@@ -37,6 +49,7 @@ class SquadronService {
             "timezone" to timezone,
             "emblemUrl" to imageUrl,
             "creatorId" to creatorId,
+            "createdBy" to userProfile?.name.orEmpty(),
             "members" to listOf(creatorId),
             "createdAt" to System.currentTimeMillis()
         )
@@ -45,6 +58,18 @@ class SquadronService {
             .document(squadronId)
             .set(squadronData)
             .await()
+
+        userRef.update(
+            mapOf(
+                "squadronId" to squadronId,
+                "isSquadronCreator" to true
+            )
+        ).await()
+    }
+
+    suspend fun fetchAllSquadrons(): List<Squadron> {
+        val querySnapshot = firestore.collection("squadrons").get().await()
+        return querySnapshot.documents.mapNotNull { it.toObject(Squadron::class.java) }
     }
 
     suspend fun fetchSquadronByUserId(userId: String): Squadron? {
@@ -65,6 +90,15 @@ class SquadronService {
         val updatedMembers = currentMembers.filterNot { it == userId }
 
         squadRef.update("members", updatedMembers).await()
+
+        firestore.collection("users")
+            .document(userId)
+            .update(
+                mapOf(
+                    "squadronId" to null,
+                    "isSquadronCreator" to false
+                )
+            ).await()
     }
 
     suspend fun disbandSquadron(userId: String, squadronId: String) {
@@ -79,8 +113,74 @@ class SquadronService {
         } catch (_: Exception) { /* Silent if emblem doesn't exist */ }
 
         squadRef.delete().await()
+
+        firestore.collection("users")
+            .document(userId)
+            .update(
+                mapOf(
+                    "squadronId" to null,
+                    "isSquadronCreator" to false
+                )
+            ).await()
     }
 
+    suspend fun sendJoinRequest(userId: String, squadronId: String) {
+        val userRef = firestore.collection("users").document(userId)
+        val userSnapshot = userRef.get().await()
+        val user = userSnapshot.toObject(UserProfile::class.java)
+            ?: throw IllegalStateException("User profile not found.")
 
+        if (user.squadronId != null) {
+            throw IllegalStateException("You're already in a squadron.")
+        }
+
+        val joinRequestsRef = firestore.collection("squadrons")
+            .document(squadronId)
+            .collection("joinRequests")
+
+        val existingRequest = joinRequestsRef.document(userId).get().await()
+        if (existingRequest.exists()) {
+            throw IllegalStateException("Join request already pending.")
+        }
+
+        val requestData = mapOf(
+            "userId" to userId,
+            "name" to user.name,
+            "totalFlightHours" to user.totalFlightHours,
+            "timestamp" to System.currentTimeMillis()
+        )
+
+        joinRequestsRef.document(userId).set(requestData).await()
+    }
+
+    suspend fun getJoinRequestsForSquadron(squadronId: String): List<UserProfile> {
+        val joinRequestRef = firestore.collection("squadrons")
+            .document(squadronId)
+            .collection("joinRequests")
+
+        val snapshot = joinRequestRef.get().await()
+        return snapshot.documents.mapNotNull { it.toObject(UserProfile::class.java) }
+    }
+
+    suspend fun approveUserJoinRequest(userId: String, squadronId: String) {
+        val squadronRef = firestore.collection("squadrons").document(squadronId)
+        val userRef = firestore.collection("users").document(userId)
+
+        firestore.runBatch { batch ->
+            batch.update(squadronRef, "members", FieldValue.arrayUnion(userId))
+            batch.update(userRef, "squadronId", squadronId)
+            batch.update(userRef, "isSquadronCreator", false)
+            batch.delete(squadronRef.collection("joinRequests").document(userId))
+        }
+    }
+
+    suspend fun denyUserJoinRequest(userId: String, squadronId: String) {
+        val requestRef = firestore.collection("squadrons")
+            .document(squadronId)
+            .collection("joinRequests")
+            .document(userId)
+
+        requestRef.delete().await()
+    }
 }
 

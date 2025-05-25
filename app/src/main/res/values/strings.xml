@@ -43,4 +43,23 @@
     <string name="disband_squadron">Disband Squadron</string>
     <string name="squadron_members">%1$s members</string>
     <string name="squadron">Squadron</string>
+    <string name="join_existing_squadron">Join A Squadron</string>
+    <string name="no_squadrons_available">No Squadrons Avaialable</string>
+    <string name="request_to_join">Request to Join</string>
+    <string name="welcome_to_virtualwing_squadrons">Welcome to VirtualWing Squadrons!</string>
+    <string name="squadron_name_hint">Squadron Name</string>
+    <string name="squadron_description_hint">Description</string>
+    <string name="upload_emblem_icon">Upload Emblem Icon</string>
+    <string name="join_a_squadron">Join a Squadron</string>
+    <string name="squadron_description">Description\n</string>
+    <string name="squadron_join_request">Request To Join</string>
+    <string name="squadron_creator">Created by</string>
+    <string name="squadron_timezone">Timezone\n</string>
+    <string name="squadron_region">Region</string>
+    <string name="view_join_requests">View Join Requests</string>
+    <string name="pilot_name">Pilot Name</string>
+    <string name="approve">Approve</string>
+    <string name="deny">Deny</string>
+    <string name="pending_join_requests">Pending Join Requests</string>
+    <string name="request_count">0</string>
 </resources>
