@@ -181,13 +181,8 @@ class SquadronInfoActivity : BaseActivity() {
         val isCreator = currentUserId == squadron.creatorId
         leaveButton.visibility = if (isCreator) View.GONE else View.VISIBLE
         disbandButton.visibility = if (isCreator) View.VISIBLE else View.GONE
-
-        if (userIsAdminOrCreator(currentUserId, squadron)) {
-            viewJoinRequestsButton.visibility = View.VISIBLE
-            squadronViewModel.getPendingJoinRequests(squadron.id)
-        } else {
-            viewJoinRequestsButton.visibility = View.GONE
-        }
+        viewJoinRequestsButton.visibility = if (isCreator) View.VISIBLE else View.GONE
+        squadronViewModel.getPendingJoinRequests(squadron.id)
     }
 
     private fun userIsAdminOrCreator(userId: String?, squadron: Squadron): Boolean {
