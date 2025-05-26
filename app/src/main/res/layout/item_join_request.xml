@@ -40,14 +40,12 @@
 
             <Button
                 android:id="@+id/btn_approve"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/approve" />
 
             <Button
                 android:id="@+id/btn_deny"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/deny"

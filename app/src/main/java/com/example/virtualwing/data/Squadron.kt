@@ -10,5 +10,5 @@ data class Squadron (
     val creatorId: String = "",
     val createdBy: String = "",
     val createdAt: Long = System.currentTimeMillis(),
-    val memberIds: List<String> = listOf()
+    val members: List<String> = listOf()
 )

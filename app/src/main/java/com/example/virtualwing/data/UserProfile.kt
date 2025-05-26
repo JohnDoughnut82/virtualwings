@@ -8,5 +8,6 @@ data class UserProfile(
     val favouriteAircraft: List<String> = emptyList(),
     val totalFlightHours: Int = 0,
     val squadronId: String? = null,
-    val isSquadronCreator: Boolean = false
+    val isSquadronCreator: Boolean = false,
+    val isSquadronAdmin: Boolean = false
 )

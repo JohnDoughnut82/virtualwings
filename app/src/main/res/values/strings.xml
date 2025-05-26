@@ -44,7 +44,7 @@
     <string name="squadron_members">%1$s members</string>
     <string name="squadron">Squadron</string>
     <string name="join_existing_squadron">Join A Squadron</string>
-    <string name="no_squadrons_available">No Squadrons Avaialable</string>
+    <string name="no_squadrons_available">No Squadrons Available</string>
     <string name="request_to_join">Request to Join</string>
     <string name="welcome_to_virtualwing_squadrons">Welcome to VirtualWing Squadrons!</string>
     <string name="squadron_name_hint">Squadron Name</string>
@@ -62,4 +62,8 @@
     <string name="deny">Deny</string>
     <string name="pending_join_requests">Pending Join Requests</string>
     <string name="request_count">0</string>
+    <string name="member_name">Member Name</string>
+    <string name="make_admin">Make Admin</string>
+    <string name="remove">Remove</string>
+    <string name="arrange_flight">Arrange Flight</string>
 </resources>

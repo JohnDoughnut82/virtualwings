@@ -39,7 +39,7 @@ class SquadronDetailDialog(
         timezoneTextView.text = squadron.timezone
         createdByTextView.text = squadron.createdBy
         memberCountTextView.text = context.getString(
-            R.string.squadron_members, squadron.memberIds.size)
+            R.string.squadron_members, squadron.members.size)
 
         Glide.with(context)
             .load(squadron.emblemUrl)

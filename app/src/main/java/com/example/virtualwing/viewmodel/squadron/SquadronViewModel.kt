@@ -32,9 +32,28 @@ class SquadronViewModel(private val squadronRepository: SquadronRepository) : Vi
     private val _joinRequests = MutableLiveData<List<UserProfile>>()
     val joinRequests: LiveData<List<UserProfile>> get() = _joinRequests
 
+    private val _squadronMembers = MutableLiveData<List<UserProfile>>()
+    val squadronMembers: LiveData<List<UserProfile>> get() = _squadronMembers
+
+    private val _userProfile = MutableLiveData<UserProfile?>()
+    val userProfile: LiveData<UserProfile?> get() = _userProfile
+
     fun checkUserSquadron(userId: String) {
         viewModelScope.launch {
-            _userSquadron.postValue(squadronRepository.getUserSquadron(userId))
+            val updatedSquadron = squadronRepository.getUserSquadron(userId)
+            _userSquadron.postValue(updatedSquadron)
+        }
+    }
+
+    fun fetchUserProfile(userId: String) {
+        viewModelScope.launch {
+            try {
+                val profile = squadronRepository.getUserProfileById(userId)
+                _userProfile.postValue(profile)
+            } catch (e: Exception) {
+                Log.e("SquadronViewModel", "Error fetching profile", e)
+                _userProfile.postValue(null)
+            }
         }
     }
 
@@ -121,6 +140,56 @@ class SquadronViewModel(private val squadronRepository: SquadronRepository) : Vi
                 squadronRepository.denyUserJoinRequest(userId, squadronId)
             } catch (e: Exception) {
                 Log.e("SquadronViewModel", "Denial failed", e)
+            }
+        }
+    }
+
+    fun loadSquadronMembers() {
+        viewModelScope.launch {
+            try {
+                val squadron = _userSquadron.value
+                if (squadron == null) {
+                    Log.e("SquadronViewModel", "Squadron not loaded.")
+                    return@launch
+                }
+
+                val freshSquadron = squadronRepository.getUserSquadron(squadron.creatorId)
+                val memberIds = freshSquadron?.members ?: emptyList()
+
+                val memberProfiles = memberIds.mapNotNull { id ->
+                    try {
+                        squadronRepository.getUserProfileById(id)
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+
+                _squadronMembers.postValue(memberProfiles)
+                _userSquadron.postValue(freshSquadron)
+            } catch (e: Exception) {
+                Log.e("SquadronViewModel", "Failed to load squadron members", e)
+            }
+        }
+    }
+
+    fun promoteToAdmin(userId: String, squadronId: String) {
+        viewModelScope.launch {
+            try {
+                squadronRepository.promoteToAdmin(userId, squadronId)
+                loadSquadronMembers()
+            } catch (e: Exception) {
+                Log.e("SquadronViewModel", "Failed to promote member", e)
+            }
+        }
+    }
+
+    fun removeMember(userId: String, squadronId: String) {
+        viewModelScope.launch {
+            try {
+                squadronRepository.removeMember(userId, squadronId)
+                loadSquadronMembers()
+            } catch (e: Exception) {
+                Log.e("SquadronViewModel", "Failed to remove member", e)
             }
         }
     }

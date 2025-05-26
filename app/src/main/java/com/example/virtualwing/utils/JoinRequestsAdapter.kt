@@ -10,7 +10,7 @@ import com.example.virtualwing.R
 import com.example.virtualwing.data.UserProfile
 
 class JoinRequestsAdapter(
-    private val requests: List<UserProfile>,
+    private val requests: MutableList<UserProfile>,
     private val onApprove: (UserProfile) -> Unit,
     private val onDeny: (UserProfile) -> Unit,
 ) : RecyclerView.Adapter<JoinRequestsAdapter.RequestViewHolder>() {
@@ -26,6 +26,14 @@ class JoinRequestsAdapter(
     }
 
     override fun getItemCount(): Int = requests.size
+
+    fun removeUser(user: UserProfile) {
+        val index = requests.indexOfFirst { it.id == user.id }
+        if (index != -1) {
+            requests.removeAt(index)
+            notifyItemRemoved(index)
+        }
+    }
 
     inner class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.tv_name)

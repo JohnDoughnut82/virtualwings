@@ -1,5 +1,7 @@
 package com.example.virtualwing.ui.squadron
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -11,7 +13,9 @@ import com.bumptech.glide.Glide
 import com.example.virtualwing.BaseActivity
 import com.example.virtualwing.R
 import com.example.virtualwing.data.Squadron
+import com.example.virtualwing.data.UserProfile
 import com.example.virtualwing.utils.JoinRequestsDialog
+import com.example.virtualwing.utils.MemberListDialog
 import com.example.virtualwing.viewmodel.factoryProvider.ViewModelFactoryProvider
 import com.example.virtualwing.viewmodel.squadron.SquadronViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -31,11 +35,18 @@ class SquadronInfoActivity : BaseActivity() {
 
     private lateinit var badgeTextView: TextView
 
+    private var isLoadingSquadron = true
+
     private val squadronViewModel: SquadronViewModel by viewModels {
         ViewModelFactoryProvider.provideSquadronViewModelFactory()
     }
 
     private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
+    override fun onResume() {
+        super.onResume()
+        currentUserId?.let { squadronViewModel.checkUserSquadron(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +68,14 @@ class SquadronInfoActivity : BaseActivity() {
 
         // Observe current squadron data
         squadronViewModel.userSquadron.observe(this) { squadron ->
-            if (squadron != null) {
-                renderSquadronInfo(squadron)
-            } else {
-                Toast.makeText(this, "No squadron found.", Toast.LENGTH_SHORT).show()
-                finish() // Close activity if no squadron
+            if (isLoadingSquadron) {
+                isLoadingSquadron = false
+                if (squadron != null) {
+                    renderSquadronInfo(squadron)
+                } else {
+                    Toast.makeText(this, "No squadron found.", Toast.LENGTH_SHORT).show()
+                    finish() // Close activity if no squadron
+                }
             }
         }
 
@@ -77,6 +91,28 @@ class SquadronInfoActivity : BaseActivity() {
             currentUserId?.let { userId ->
                 squadronViewModel.userSquadron.value?.let { squad ->
                     squadronViewModel.disbandSquadron(userId, squad.id)
+                }
+            }
+        }
+
+        viewJoinRequestsButton.setOnClickListener {
+            val squadron = squadronViewModel.userSquadron.value
+            if (squadron != null && userIsAdminOrCreator(currentUserId, squadron)) {
+                squadronViewModel.getPendingJoinRequests(squadron.id)
+
+                squadronViewModel.joinRequests.observe(this) { requests ->
+                    if (requests.isNotEmpty()) {
+                        JoinRequestsDialog(this, requests,
+                            onApprove = { user ->
+                                squadronViewModel.approveJoinRequest(user.id, squadron.id)
+                            },
+                            onDeny = { user ->
+                                squadronViewModel.denyJoinRequest(user.id, squadron.id)
+                            }
+                        ).show()
+                    } else {
+                        Toast.makeText(this, "No join requests found.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -100,22 +136,26 @@ class SquadronInfoActivity : BaseActivity() {
             }
         }
 
-        // Trigger loading the current user's squadron
         currentUserId?.let { squadronViewModel.checkUserSquadron(it) }
 
-        viewJoinRequestsButton.setOnClickListener {
-            val squadron = squadronViewModel.userSquadron.value
-            if (squadron != null && userIsAdminOrCreator(currentUserId, squadron)) {
-                squadronViewModel.joinRequests.observe(this) { requests ->
-                    JoinRequestsDialog(this, requests,
-                        onApprove = { user ->
-                            squadronViewModel.approveJoinRequest(user.id, squadron.id)
-                        },
-                        onDeny = { user->
-                            squadronViewModel.denyJoinRequest(user.id, squadron.id)
-                        }
-                    ).show()
-                }
+        currentUserId?.let { squadronViewModel.fetchUserProfile(it) }
+
+        squadronViewModel.joinRequests.observe(this) { requests ->
+            updateJoinRequestCount(requests.size)
+        }
+
+        memberCountTextView.setOnClickListener {
+            val squadron = squadronViewModel.userSquadron.value ?: return@setOnClickListener
+            val currentUser = squadronViewModel.userProfile.value
+
+            if (currentUser != null) {
+                val dialog =
+                    MemberListDialog(squadron, currentUser, squadronViewModel) { memberToFlyWith ->
+                        // Handle "fly with member" action
+                    }
+                dialog.show(supportFragmentManager, "MemberListDialog")
+            } else {
+                Toast.makeText(this, "User profile not loaded.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -125,12 +165,13 @@ class SquadronInfoActivity : BaseActivity() {
         badgeTextView.visibility = if (count > 0) View.VISIBLE else View.GONE
     }
 
+    @SuppressLint("StringFormatMatches")
     private fun renderSquadronInfo(squadron: Squadron) {
         nameTextView.text = squadron.name
         descTextView.text = squadron.description
         regionTextView.text = squadron.region
         timezoneTextView.text = squadron.timezone
-        memberCountTextView.text = getString(R.string.squadron_members, squadron.memberIds.size)
+        memberCountTextView.text = getString(R.string.squadron_members, squadron.members.size)
 
         Glide.with(this)
             .load(squadron.emblemUrl)
@@ -143,15 +184,18 @@ class SquadronInfoActivity : BaseActivity() {
 
         if (userIsAdminOrCreator(currentUserId, squadron)) {
             viewJoinRequestsButton.visibility = View.VISIBLE
-            squadronViewModel.joinRequests.observe(this) { requests ->
-                updateJoinRequestCount(requests.size)
-            }
+            squadronViewModel.getPendingJoinRequests(squadron.id)
         } else {
             viewJoinRequestsButton.visibility = View.GONE
         }
     }
 
     private fun userIsAdminOrCreator(userId: String?, squadron: Squadron): Boolean {
-        return userId != null && (userId == squadron.creatorId)//|| squadron.adminIds.contains(userId))
+        val currentUser = squadronViewModel.userProfile.value
+        return if (currentUser != null) {
+            userId == squadron.creatorId || currentUser.isSquadronAdmin
+        } else {
+            false
+        }
     }
 }

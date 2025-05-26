@@ -67,6 +67,11 @@ class SquadronService {
         ).await()
     }
 
+    suspend fun fetchUserProfileById(userId: String): UserProfile? {
+        val doc = firestore.collection("users").document(userId).get().await()
+        return doc.toObject(UserProfile::class.java)?.copy(id = doc.id)
+    }
+
     suspend fun fetchAllSquadrons(): List<Squadron> {
         val querySnapshot = firestore.collection("squadrons").get().await()
         return querySnapshot.documents.mapNotNull { it.toObject(Squadron::class.java) }
@@ -159,19 +164,24 @@ class SquadronService {
             .collection("joinRequests")
 
         val snapshot = joinRequestRef.get().await()
-        return snapshot.documents.mapNotNull { it.toObject(UserProfile::class.java) }
+        return snapshot.documents.mapNotNull { doc ->
+            doc.toObject(UserProfile::class.java)?.copy(id = doc.id)
+        }
     }
 
     suspend fun approveUserJoinRequest(userId: String, squadronId: String) {
         val squadronRef = firestore.collection("squadrons").document(squadronId)
         val userRef = firestore.collection("users").document(userId)
+        val joinRequestRef = squadronRef.collection("joinRequests").document(userId)
 
         firestore.runBatch { batch ->
             batch.update(squadronRef, "members", FieldValue.arrayUnion(userId))
-            batch.update(userRef, "squadronId", squadronId)
-            batch.update(userRef, "isSquadronCreator", false)
-            batch.delete(squadronRef.collection("joinRequests").document(userId))
-        }
+            batch.update(userRef, mapOf(
+                "squadronId" to squadronId,
+                "isSquadronCreator" to false
+            ))
+            batch.delete(joinRequestRef)
+        }.await()
     }
 
     suspend fun denyUserJoinRequest(userId: String, squadronId: String) {
@@ -181,6 +191,34 @@ class SquadronService {
             .document(userId)
 
         requestRef.delete().await()
+    }
+
+    suspend fun promoteUserToAdmin(userId: String, squadronId: String) {
+        val userRef = firestore.collection("users").document(userId)
+        val userSnapshot = userRef.get().await()
+
+        val userProfile = userSnapshot.toObject(UserProfile::class.java)
+            ?: throw IllegalArgumentException("User not found")
+
+        if (userProfile.squadronId != squadronId) {
+            throw IllegalStateException("User is not a member of this squadron.")
+        }
+
+        userRef.update("isSquadronAdmin", true).await()
+    }
+
+    suspend fun removeMemberFromSquadron(userId: String, squadronId: String) {
+        val squadronRef = firestore.collection("squadrons").document(squadronId)
+        val userRef = firestore.collection("users").document(userId)
+
+        firestore.runBatch { batch ->
+            batch.update(squadronRef, "members", FieldValue.arrayRemove(userId))
+            batch.update(userRef, mapOf(
+                "squadronId" to null,
+                "isSquadronAdmin" to false,
+                "isSquadronCreator" to false
+            ))
+        }.await()
     }
 }
 

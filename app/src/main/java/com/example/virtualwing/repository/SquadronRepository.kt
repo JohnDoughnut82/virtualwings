@@ -1,11 +1,9 @@
 package com.example.virtualwing.repository
 
 import android.net.Uri
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import com.example.virtualwing.data.Squadron
 import com.example.virtualwing.data.UserProfile
+import com.google.firebase.firestore.auth.User
 
 class SquadronRepository(private val squadronService: SquadronService) {
 
@@ -15,6 +13,10 @@ class SquadronRepository(private val squadronService: SquadronService) {
 
     suspend fun getAllSquadrons(): List<Squadron> {
         return squadronService.fetchAllSquadrons()
+    }
+
+    suspend fun getUserProfileById(userId: String): UserProfile? {
+        return squadronService.fetchUserProfileById(userId)
     }
 
     suspend fun leaveSquadron(userId: String, squadronId: String): Result<Unit> = try {
@@ -60,5 +62,13 @@ class SquadronRepository(private val squadronService: SquadronService) {
 
     suspend fun denyUserJoinRequest(userId: String, squadronId: String) {
         return squadronService.denyUserJoinRequest(userId, squadronId)
+    }
+
+    suspend fun promoteToAdmin(userId: String, squadronId: String) {
+        squadronService.promoteUserToAdmin(userId, squadronId)
+    }
+
+    suspend fun removeMember(userId: String, squadronId: String) {
+        squadronService.removeMemberFromSquadron(userId, squadronId)
     }
 }
